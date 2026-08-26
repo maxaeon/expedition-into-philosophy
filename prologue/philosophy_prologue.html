@@ -140,7 +140,6 @@ textarea{
   <details id="bgPanel">
     <summary>Background and further reading</summary>
     <div id="bgLinks"></div>
-    <div id="bgNotes"></div>
   </details>
 
 </div>
@@ -358,11 +357,6 @@ function startDlg(steps, onDone) {
 }
 function renderDlg() {
   const step = dlg.steps[dlg.i];
-  if (step.note) {
-    addNote(step.say);
-    continueDlg();
-    return;
-  }
   dlgBox.classList.toggle("note", !!step.note);
   dlgLine.textContent = step.say;
   dlgChoices.innerHTML = "";
@@ -401,20 +395,6 @@ const BG_LINKS = [
     '<p><a href="' + l.u + '" target="_blank" rel="noopener">' + l.t + '</a></p>'
   ).join("");
 })();
-function addNote(text) {
-  const box = document.getElementById("bgNotes");
-  if (!box) return;
-  if (!box.dataset.headed) {
-    box.dataset.headed = "1";
-    const h = document.createElement("p");
-    h.className = "bg-head";
-    h.textContent = "Notes gathered during this activity";
-    box.appendChild(h);
-  }
-  const p = document.createElement("p");
-  p.textContent = text;
-  box.appendChild(p);
-}
 
 document.addEventListener("keydown", e => {
   const k = e.key.toLowerCase();
