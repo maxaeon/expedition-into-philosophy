@@ -2,19 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=map/world_map.html">
-<link rel="canonical" href="map/world_map.html">
-<title>Expedition into Philosophy</title>
-  <!--by max parks-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Navigating Philosophy</title>
+<!--by max parks-->
 <style>
-body{background:#12151c; color:#eef2f6; margin:0;
+:root{
+  --page:#12151c; --panel:#1a1f29; --panel-2:#242b38;
+  --line:#35405a; --text:#eef2f6; --muted:#a7b4c2; --sea:#5aa7d4; --sea-deep:#33769f;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--page); color:var(--text); margin:0; min-height:100vh;
   font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
-  display:flex; align-items:center; justify-content:center; height:100vh; text-align:center}
-a{color:#5aa7d4}
+  display:flex; align-items:center; justify-content:center; padding:24px;
+}
+.overlay{
+  position:fixed; inset:0; background:rgba(6,9,14,.82);
+  display:flex; align-items:center; justify-content:center; padding:24px; z-index:50;
+}
+.card{
+  background:var(--panel); border:1px solid var(--line); border-radius:12px;
+  max-width:540px; padding:26px 28px; box-shadow:0 14px 44px rgba(0,0,0,.7);
+}
+h1{
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  font-size:23px; margin:0 0 12px; letter-spacing:.3px;
+}
+p{color:var(--muted); line-height:1.6; margin:0 0 14px; font-size:15px}
+.actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:20px}
+a.btn, button.btn{
+  font:inherit; font-size:15px; padding:11px 18px; border-radius:8px;
+  border:1px solid var(--line); background:var(--panel-2); color:var(--text);
+  text-decoration:none; cursor:pointer;
+}
+a.btn:hover, button.btn:hover{background:#2c3547}
+a.btn.primary{background:var(--sea); border-color:var(--sea-deep); color:#0c1622; font-weight:600}
+a.btn.primary:hover{background:#7cbde2}
+.small{font-size:13px; margin:16px 0 0}
+.small a{color:var(--sea)}
+.behind{max-width:540px; text-align:center}
+.behind h2{
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  font-size:22px; margin:0 0 10px;
+}
 </style>
 </head>
 <body>
-  <p>Opening Expedition into Philosophy. If nothing happens, <a href="map/world_map.html">open the world map</a>.</p>
-  <script>window.location.replace("map/world_map.html");</script>
+
+<!-- Shown once the notice is dismissed, and to anyone without scripting. -->
+<div class="behind">
+  <h2>Navigating Philosophy</h2>
+  <p>This is an older copy of the game.
+     <a href="https://maxaeon.github.io/navigating/">Open the current version</a>,
+     or <a href="map/world_map.html">continue to this older one</a>.</p>
+</div>
+
+<div class="overlay" id="notice" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+  <div class="card">
+    <h1 id="noticeTitle">There is a newer version of this game</h1>
+    <p>You have reached an older copy. The current version has more activities,
+       a redrawn map, fewer answers required, and fixes that this copy does not have. Everything here
+       still works, so you may carry on if you would rather.</p>
+    <div class="actions">
+      <a class="btn primary" id="goNew" href="https://maxaeon.github.io/navigating/">Open the current version</a>
+      <button class="btn" id="stay" type="button">Continue to this older version</button>
+    </div>
+    <p class="small">Current address:
+      <a href="https://maxaeon.github.io/navigating/">maxaeon.github.io/navigating</a></p>
+  </div>
+</div>
+
+<script>
+"use strict";
+(function () {
+  var notice = document.getElementById("notice");
+  var stay = document.getElementById("stay");
+  var go = document.getElementById("goNew");
+  if (!notice) return;
+
+  // Carry any query string or anchor across, so an assignment link
+  // that ends in ?mode=course still arrives in course mode.
+  go.href = "https://maxaeon.github.io/navigating/" +
+            window.location.search + window.location.hash;
+
+  function dismiss() {
+    notice.parentNode.removeChild(notice);
+    window.location.href = "map/world_map.html";
+  }
+  stay.addEventListener("click", dismiss);
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape") dismiss();
+  });
+  go.focus();
+})();
+</script>
 </body>
 </html>
